@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 夏日北海道家族之旅 🎌</title>
+    <style>
+        :root {
+            --primary-color: #2b5298;
+            --secondary-color: #5ab4a6;
+            --accent-color: #f5a623;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* 頂部橫幅 */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.4rem;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* 快捷資訊欄 */
+        .quick-info {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: -25px auto 25px auto;
+            max-width: 800px;
+            padding: 0 15px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .info-badge {
+            background-color: var(--card-bg);
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-size: 0.95rem;
+            font-weight: bold;
+            border: 1px solid #eef2f5;
+        }
+
+        /* 時間軸主容器 */
+        .timeline {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 10px 15px 60px 15px;
+        }
+
+        /* 每日行程卡片 */
+        .day-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            border-top: 8px solid var(--primary-color);
+            transition: transform 0.2s ease;
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .day-card.even {
+            border-top-color: var(--secondary-color);
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed #eceff1;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .day-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1e3c72;
+            margin: 0;
+        }
+
+        .day-date {
+            font-size: 1.15rem;
+            color: #555;
+            font-weight: bold;
+            background: #eef2f7;
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        /* 景點項目 */
+        .spot-item {
+            margin-bottom: 30px;
+        }
+
+        .spot-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .spot-title-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .spot-icon {
+            font-size: 1.7rem;
+            margin-right: 10px;
+        }
+
+        .spot-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0;
+            color: #2c3e50;
+        }
+
+        .spot-desc {
+            font-size: 0.98rem;
+            color: #666;
+            margin: 0 0 15px 0;
+            padding-left: 2px;
+        }
+
+        /* 📸 雙圖排版容器：修改為由上至下垂直排列 */
+        .photo-grid {
+            display: flex;
+            flex-direction: column; /* 👈 關鍵：強迫圖片上下垂直堆疊 */
+            gap: 15px; /* 圖片與圖片之間的精緻留白 */
+            margin-bottom: 15px;
+        }
+
+        /* 📸 照片美化樣式 (全圖顯示、防裁切) */
+        .spot-photo {
+            width: 100%;
+            height: auto; /* 高度自適應，保持原圖比例 */
+            max-height: 450px; /* 限制最大高度，防止直幅照片在手機上拉得過長 */
+            object-fit: contain; /* 確保完整呈現整張圖，絕對不裁切任何邊緣 */
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            background-color: #fdfdfd; /* 防裁切時若有極細微白邊，呈現精緻底色 */
+            display: block;
+            margin: 0 auto; /* 居中對齊 */
+        }
+
+        /* 底部註腳 */
+        footer {
+            background-color: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+            font-size: 0.95rem;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* 手機版適配 */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.9rem;
+            }
+            header p {
+                font-size: 1rem;
+            }
+            .day-title {
+                font-size: 1.3rem;
+            }
+            .day-date {
+                font-size: 0.95rem;
+            }
+            .spot-name {
+                font-size: 1.1rem;
+            }
+            .spot-photo {
+                max-height: 300px; /* 手機版畫面上限稍微調小，更好滑動 */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🎌 彭氏家族2026 Summer Family Trip</h1>
+        <p>第三次7人行: 北海道・東京 10天夏日消暑消遙遊 🌸</p>
+    </header>
+
+    <div class="quick-info">
+        <div class="info-badge">👨‍👩‍👧‍👦 團員：彭氏家族5大2小</div>
+        <div class="info-badge">🚗 通：自駕7人車 + 東京鐵路</div>
+        <div class="info-badge">🍽️ 膳食：串燒、北海道螃蟹、刺身、壽司、日式西餐、燒肉、Shabushabu...數之不盡美饌</div>
+    </div>
+
+    <div class="timeline">
+
+        <!-- Day 1 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title">Day 1 🛫 啟航日本北國</div>
+                <div class="day-date">20/8 (星期四)</div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">✈️</div>
+                    <p class="spot-name">香香港 ➔ 東京成田 ➔ 北海道新千歲</p>
+                </div>
+                <div class="spot-desc">乘坐 ANA 飛機出發！降落後提取寬敞舒適的Toyota Alphard 7人車。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://transcode-v2.app.engoo.com/image/fetch/f_auto,c_lfill,w_300,dpr_3/https://assets.app.engoo.com/organizations/5d2656f1-9162-461d-88c7-b2505623d8cb/images/4L5aLqTPzYKrPq49KUN4CM.jpeg?auto=format&fit=crop&w=800&q=80" alt="飛機起飛">
+                    <img class="spot-photo" src="https://www.wanderlustmagazine.com/wp-content/uploads/2023/10/cropped-shutterstock_144976870.jpg?auto=format&fit=crop&w=800&q=80" alt="雲海客機">
+					<img class="spot-photo" src="https://monocle.com/wp-content/uploads/legacy/article/20230621_01_30_s.jpg?fit=2200%2C1556?auto=format&fit=crop&w=800&q=80" alt="雲海客機">
+					
+                </div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🍣</div>
+                    <p class="spot-name">第一晚：千歲串鳥串燒之夜</p>
+                </div>
+                <div class="spot-desc">到埠後享用一頓北海道限定老少皆宜的串烏串燒，為旅程拉開序幕！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://d3h1lg3ksw6i6b.cloudfront.net/media/image/2021/08/31/6f9ec299c5694358a92218829706d1c0_shutterstock_1794782113_2.jpg?auto=format&fit=crop&w=736&q=414" alt="握壽司">
+                    
+                </div>
+            </div>
+			<div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🏠</div>
+                    <p class="spot-name">入住3晚：札幌民宿 The Sky</p>
+                </div>
+                <div class="spot-desc"> 豪華獨立式住宅，鄰近大商場Ario</div>
+                <img class="spot-photo" src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/699556801.jpg?k=edb85c91ef98def6892fa6013db33aec5452b9e47a88c6de234813f7bccfbe6e&o?auto=format&fit=crop&w=800&q=80" alt="小樽西餐 ISO">
+				<img class="spot-photo" src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/833314930.jpg?k=f34b93f1f31d2e58ca6584b9bfc19ffd6a4b005579445ce37440035027ec048e&o=?fit=2200%2C1556?auto=format&fit=crop&w=800&q=80" alt="雲海客機">
+				<img class="spot-photo" src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/833314966.jpg?k=80d5e6dc428d89306804c73e5d5e6b0a6ab2a9a794e668e0cf67ed9bee2f0b4e&o=?auto=format&fit=crop&w=800&q=80" alt="雲海客機">
+            </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="day-card even">
+            <div class="day-header">
+                <div class="day-title">>Day 2 🏰 白色戀人城堡與星空夜景</div>
+                <div class="day-date">21/8 (星期五)</div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🐟</div>
+                    <p class="spot-name">二條市場 ➔ 近藤昇商店早餐</p>
+                </div>
+                <div class="spot-desc">長輩大讚的鮮甜海鮮丼，小朋友可點熱呼呼的烤魚和厚燒玉子！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://appletrees.tw/wp-content/uploads/2020/02/1673764654-e93308caea8557ba336b0603b0cdd4f9.jpg?auto=format&fit=crop&w=800&q=80" alt="豪華海鮮丼">
+                    <img class="spot-photo" src="https://appletrees.tw/wp-content/uploads/2020/02/1582640470-e9460ef2c6cfcbe14730e626d08bb8fb.jpg?auto=format&fit=crop&w=800&q=80" alt="烤魚料理">
+                </div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🏰</div>
+                    <p class="spot-name">白色戀人朱古力公園</p>
+                </div>
+                <div class="spot-desc">充滿童話色彩的英式城堡，能看到漂亮的庭園和品嚐濃郁牛奶雪糕！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://mimigo.tw/wp-content/uploads/20180825164518_75.jpg?auto=format&fit=crop&w=800&q=80" alt="白色戀人城堡">
+                    <img class="spot-photo" src="https://wp-odai.wamazing.com/media/wp-content/uploads/sites/2/2022/11/shiroikoibito_sub3.jpg.webp?auto=format&fit=crop&w=800&q=80" alt="美味雪糕">
+                </div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">✨</div>
+                    <p class="spot-name">藻岩山纜車 ➔ 札幌璀璨夜景</p>
+                </div>
+                <div class="spot-desc">乘坐兩段式纜車登上藻岩山頂，將札幌如黑鑽般的夜景盡收眼底。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://www.visit-hokkaido.jp/lsc/upfile/spot/0001/0008/10008_2_l.jpg?auto=format&fit=crop&w=800&q=80" alt="札幌市區">
+                    <img class="spot-photo" src="https://d1grca2t3zpuug.cloudfront.net/2026/02/S__377143304-1706x958-1770555123.webp?auto=format&fit=crop&w=800&q=80" alt="夜間纜車">
+                </div>
+            </div>
+			 <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🥩🔥</div>
+                    <p class="spot-name">第二晚：狸小路德壽燒肉</p>
+                </div>
+                <div class="spot-desc">享用北海道頂級和牛燒肉。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://image.kkday.com/v2/image/get/w_1900%2Cc_fit/s1.kkday.com/product_267204/20250115091337_EyG6I/jpg?auto=format&fit=crop&w=736&q=414" alt="握壽司">
+                    
+                </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title">Day 3 🔮 余市威士忌廠+浪漫小樽運河</div>
+                <div class="day-date">22/8 (星期六)</div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🥃</div>
+                    <p class="spot-name">余市 NIKKA 威士忌蒸餾所</p>
+                </div>
+                <div class="spot-desc">漫步於蘇格蘭風情的古老紅磚廠區，感受醇厚橡木桶香。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://wp-odai.wamazing.com/media/wp-content/uploads/sites/2/2024/05/hokkaidoItinerary22_pixta_75863376_M.jpg.webp?auto=format&fit=crop&w=800&q=80" alt="威士忌橡木桶">
+                    <img class="spot-photo" src="https://kimiyo.tw/wp-content/uploads/20250211173130_0_00988d.jpg?auto=format&fit=crop&w=800&q=80" alt="玻璃酒杯">
+                </div>
+            </div>
+			 <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🐟</div>
+                    <p class="spot-name">海鮮工房 柿崎商店午餐</p>
+                </div>
+                <div class="spot-desc">鮮度與份量皆為頂級的海鮮蓋飯！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://tblg.k-img.com/restaurant/images/Rvw/9277/f189bfd27793b0449ad86354bdf7f793.jpg?auto=format&fit=crop&w=800&q=80" alt="豪華海鮮丼">
+                    <img class="spot-photo" src="https://media-cdn.tripadvisor.com/media/photo-s/0f/9f/a2/51/caption.jpg?auto=format&fit=crop&w=800&q=80" alt="烤魚料理">
+                </div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🎵</div>
+                    <p class="spot-name">小樽運河 ➔ 八音盒堂 ➔ 蒸氣鐘</p>
+                </div>
+                <div class="spot-desc">運河與倉庫群拍照打卡，隨後到八音盒堂選購悠揚的手工音樂盒。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://wp-odai.wamazing.com/media/wp-content/uploads/sites/2/2025/05/otarucanal_pixta_113953610_M.jpg.webp?auto=format&fit=crop&w=800&q=80" alt="小樽運河">
+                    <img class="spot-photo" src="https://thumbs.dreamstime.com/b/%E5%B0%8F%E6%A8%BD%E8%92%B8%E6%B1%BD%E5%B0%96%E6%B2%99%E5%92%80%E9%92%9F%E6%A5%BC-58954796.jpg?auto=format&fit=crop&w=800&q=80" alt="精美八音盒">
+                </div>
+            </div>
+			<div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🍽️</div>
+                    <p class="spot-name">第三晚：小樽日式西餐廳ISO</p>
+                </div>
+                <div class="spot-desc">餐廳使用小樽市樹－樺木柴，致力於融合現代北海道料理和西式菜餚，主打以北海道牛肉為主的木烤牛扒。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://tblg.k-img.com/resize/640x360c/restaurant/images/Rvw/162320/162320526.jpg?token=95f5179&api=v2?auto=format&fit=crop&w=736&q=414" alt="握壽司">
+					<img class="spot-photo" src="https://cdn.shopify.com/s/files/1/0909/2494/1588/files/ISO3.jpg?v=1776576874?token=95f5179&api=v2?auto=format&fit=crop&w=736&q=414" alt="握壽司">
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 4 -->
+        <div class="day-card even">
+            <div class="day-header">
+                <div class="day-title">Day 4 🌋 登別地獄谷 - 震撼火山奇景</div>
+                <div class="day-date">23/8 (Sun)</div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🌫️</div>
+                    <p class="spot-name">登別地獄谷 ➔ 溫泉街</p>
+                </div>
+                <div class="spot-desc">欣賞硫磺煙霧升騰、白土嶙峋的地熱奇觀。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://www.visit-hokkaido.jp/lsc/upfile/spot/0001/0157/10157_2_l.jpg?auto=format&fit=crop&w=800&q=80" alt="地熱景觀">
+                    <img class="spot-photo" src="https://www.visit-hokkaido.jp/lsc/upfile/spot/0001/0157/10157_1_l.jpg?auto=format&fit=crop&w=800&q=80" alt="森林散步道">
+                </div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🎆</div>
+                    <p class="spot-name">洞爺湖日歸溫泉 + 湖畔煙火大會</p>
+                </div>
+                <div class="spot-desc">在湖畔一邊吹著夏日涼風，一邊欣賞在夜空中連續綻放的燦爛煙花！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://tw.tabiiro.travel/lpimg/yado/102114/main/img1.jpg?auto=format&fit=crop&w=800&q=80" alt="花火夜空">
+                    <img class="spot-photo" src="https://www.visit-hokkaido.jp/lsc/upfile/spot/0001/1046/11046_5_l.jpg?auto=format&fit=crop&w=800&q=80" alt="璀璨光軌">
+                </div>
+            </div>
+			<div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🍽️</div>
+                    <p class="spot-name">第四晚：松前屋居酒屋</p>
+                </div>
+                <div class="spot-desc">這家居酒屋在洞爺湖溫泉地區經營了約60 年，以使用早晨蔬菜、當地時令海鮮和當地生產的肉類烹製的家常菜而聞名。。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://cdn.4travel.jp/img/thumbnails/imk/tips_pict/10/14/94/650x450_10149460.jpg?updated_at=1314716029?token=95f5179&api=v2?auto=format&fit=crop&w=736&q=414" alt="握壽司">
+					<img class="spot-photo" src="https://img.gototravel.tw/2019/Hokkaido/food/Matsumaeya/Matsumaeya-9.jpg?auto=format&fit=crop&w=736&q=414" alt="握壽司">
+                    
+                </div>
+            </div>
+			<div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🏠</div>
+                    <p class="spot-name">入住2晚：洞爺湖民宿 Private Inn Kazu</p>
+                </div>
+                <div class="spot-desc"> 民宿空間寬敞、環境清幽，是一所融合現代與傳統日式設計的獨棟度假民宿，還附設按摩椅！</div>
+                <div class="photo-grid">
+				<img class="spot-photo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTP3hkJ5jmjmkQJiQK3vF15qeEPVt1EvfJdeswcuYOiwAuMi3m7AbkxFbqp&s=10?k=edb85c91ef98def6892fa6013db33aec5452b9e47a88c6de234813f7bccfbe6e&o?auto=format&fit=crop&w=800&q=80" alt="小樽西餐 ISO">
+				<img class="spot-photo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Vh9itCEE0owaKOHAFaeTp5QFTzQymrijwHlYMI-3AmnKe7kV2rbMFuw&s=10?k=f34b93f1f31d2e58ca6584b9bfc19ffd6a4b005579445ce37440035027ec048e&o=?fit=2200%2C1556?auto=format&fit=crop&w=800&q=80" alt="雲海客機">
+				<img class="spot-photo" src="https://images.trvl-media.com/lodging/111000000/110580000/110579100/110579072/48a032f4.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill?k=80d5e6dc428d89306804c73e5d5e6b0a6ab2a9a794e668e0cf67ed9bee2f0b4e&o=?auto=format&fit=crop&w=800&q=80" alt="雲海客機">
+				</div>
+            </div>
+        </div>
+
+        <!-- Day 5 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title">Day 5 🐻 餵大黑 + 乘坐有珠山纜車 + 民宿和牛火鍋</div>
+                <div class="day-date">24/8 (星期一)</div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🍎</div>
+                    <p class="spot-name">昭和新山熊牧場 ➔ 有珠山纜車</p>
+                </div>
+                <div class="spot-desc">在昭和新山下近距離餵食聰明可愛的北海道黑熊，隨後坐纜車俯瞰火山湖。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/gytkhskyrgjod1nfotvm.jpg?auto=format&fit=crop&w=800&q=80" alt="黑熊">
+                    <img class="spot-photo" src="https://svcstrg.cld.navitime.jp/imgfile/02301_1300059_01.jpg?auto=format&fit=crop&w=800&q=80" alt="壯麗高山">
+					<img class="spot-photo" src="https://dribs-drabs.com/wp-content/uploads/2019/09/1567863511-3024397660.jpg?auto=format&fit=crop&w=800&q=80" alt="壯麗高山">
+                </div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🏠🥩🔥</div>
+                    <p class="spot-name">第五晚:民宿和牛蟹腳Shabu Shabu</p>
+                </div>
+                <div class="spot-desc">於當地超市A-Mart購買本地的食材，全家在餐桌前享用高檔日本和牛、螃蟹火鍋！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://resource02.ulifestyle.com.hk/ulcms/content/article/image/w600/2025/09/20250919113812_0ea4dcadcfd542bfa46d463a9bea13e1b40f233f.jpg?auto=format&fit=crop&w=800&q=80" alt="火鍋湯底">
+                    <img class="spot-photo" src="https://content.fun-japan.jp/renewal-prod/cms/articles/content/00-shutterstock769300294jpg_2023-09-22-08-56-51.jpg?crop=0.498xw:0.993xh;0,0&resize=640:*?auto=format&fit=crop&w=800&q=80" alt="鮮嫩和牛片">
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 6 -->
+        <div class="day-card even">
+            <div class="day-header">
+                <div class="day-title">Day 6 🥛 牧場大草地與富良野市集</div>
+                <div class="day-date">25/8 (星期二)</div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🍦</div>
+                    <p class="spot-name">Lake Hill Farm 牧場</p>
+                </div>
+                <div class="spot-desc">看著遠處羊蹄山，在超大綠油油草坪上奔跑，吃牧場鮮奶手工雪糕！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://mimigo.tw/wp-content/uploads/20181020100559_35.jpg?auto=format&fit=crop&w=800&q=80" alt="香濃冰淇淋">
+                    <img class="spot-photo" src="https://svcstrg.cld.navitime.jp/travelguide/p01060012/p01060012_01.jpg?auto=format&fit=crop&w=800&q=80" alt="綠色大草地">
+                </div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🛍️</div>
+                    <p class="spot-name">北海道三井Outlet ➔ 出發到中部富良野！</p>
+                </div>
+                <div class="spot-desc">三井 OUTLET PARK 札幌北廣島是北海道最大型的暢貨購物中心，全室內的設計讓遊客不受氣候影響，隨時能輕鬆掃貨！必買THE NORTH FACE、mont-bell、Nike、GAP、Francfranc！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://hk.wamazing.com/media/wp-content/uploads/sites/5/2019/07/hokkaidomitsuioutlet_pixta_84488453_M.jpg.webp?auto=format&fit=crop&w=800&q=80" alt="精選哈密瓜">
+                   
+                </div>
+            </div>
+			<div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🍈🛒</div>
+                    <p class="spot-name">富良野農夫市集</p>
+                </div>
+                <div class="spot-desc">北海道最具代表性的複合式農產與購物中心，是遊客品嚐在地食材、採買伴手禮的最佳據點。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://tw.wamazing.com/media/wp-content/uploads/sites/4/2019/06/furano_jiyu_08.jpg.webp?auto=format&fit=crop&w=800&q=80" alt="香濃冰淇淋">
+                    <img class="spot-photo" src="https://www.bring-you.info/imgs/2024/03/furano-marche-6.jpg?auto=format&fit=crop&w=800&q=80" alt="綠色大草地">
+                </div>
+            </div>
+			<div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🍲🥩</div>
+                    <p class="spot-name">第六晚：Kumagera米之蓮壽喜燒</p>
+                </div>
+                <div class="spot-desc">超人氣鄉土料理餐廳，最招牌的菜色包括肉質軟嫩的富良野和牛壽喜燒和使用雞肉與多種蔬菜熬煮的山賊鍋！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_inelzAtf7-_lwugripRzYxfCGb0zMJIo_zWFLUEh8I9gudFvGeQzGUkb&s=10?auto=format&fit=crop&w=736&q=414" alt="握壽司">
+					<img class="spot-photo" src="https://shoku-tabi.net/wp-content/uploads/2025/08/IMG_2690-1024x768.jpeg?auto=format&fit=crop&w=736&q=414" alt="握壽司">
+                    
+                </div>
+            </div>
+			<div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🏠</div>
+                    <p class="spot-name">入住2晚：富良野民宿 TORENIA</p>
+                </div>
+                <div class="spot-desc"> 位於北海道富良野市朝日町的獨棟私人度假屋，民宿設有乒乓球桌，能在室內與家人享受快樂時光。</div>
+                <div class="photo-grid">
+				<img class="spot-photo" src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/657576677.jpg?k=1619d662b1b71a09fbe7a27b299606d0c6487b1a588d5d1794c32c8363cc3ee5&o=?k=edb85c91ef98def6892fa6013db33aec5452b9e47a88c6de234813f7bccfbe6e&o?auto=format&fit=crop&w=800&q=80" alt="小樽西餐 ISO">
+				<img class="spot-photo" src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/657576620.jpg?k=3f9f945ab2ad8ecfbb20f20d44818d37f5b4a53e4c2dbeb89912930fd6047a2b&o=?auto=format&fit=crop&w=800&q=80" alt="雲海客機">
+				<img class="spot-photo" src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/657576652.jpg?k=b40555d0d50ed3554340f92b6db18262f865ceff0af9829471659c379f39db5e&o=?impolicy=resizecrop&rw=575&rh=575&ra=fill?k=80d5e6dc428d89306804c73e5d5e6b0a6ab2a9a794e668e0cf67ed9bee2f0b4e&o=?auto=format&fit=crop&w=800&q=80" alt="雲海客機">
+				</div>
+            </div>
+			
+        </div>
+
+        <!-- Day 7 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title">Day 7 🐻 旭山動物園＋美瑛青池、白鬚瀑布</div>
+                <div class="day-date">26/8 (星期三)</div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🐧</div>
+                    <p class="spot-name">旭山動物園</p>
+                </div>
+                <div class="spot-desc">日本最北端的動物園，遊客能從極近距離、甚至動物視角觀察海豹悠遊與北極熊跳水，是北海道必訪的超人氣景點！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://www.visit-hokkaido.jp/lsc/upfile/spot/0001/0043/10043_8_l.jpg?auto=format&fit=crop&w=800&q=80" alt="國王企鵝">
+                    <img class="spot-photo" src="https://banbi.tw/wp-content/uploads/20171214003614_29.jpg?auto=format&fit=crop&w=800&q=80" alt="慵懶海豹">
+                </div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">💎</div>
+                    <p class="spot-name">美瑛青池 ➔ 白鬚瀑布</p>
+                </div>
+                <div class="spot-desc">欣賞如翡翠般、池中佈滿枯落枯木的青池，與飛流直下的瀑布奇觀。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://wp-odai.wamazing.com/media/wp-content/uploads/sites/2/2025/06/DSC09502.jpeg.jpg.webp?auto=format&fit=crop&w=800&q=80" alt="美瑛青池">
+                    <img class="spot-photo" src="https://www.visit-hokkaido.jp/lsc/upfile/spot/0001/1198/11198_2_l.jpg?auto=format&fit=crop&w=800&q=80" alt="森林瀑布">
+                </div>
+            </div>
+			<div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🍈🛒</div>
+                    <p class="spot-name">美瑛選果本店</p>
+                </div>
+                <div class="spot-desc">販售美瑛產地直送的新鮮蔬果、美瑛米、乳製品及精緻伴手禮。蔬菜品質極高，也有許多在地居民來此採買。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://kimiyo.tw/wp-content/uploads/20250523203915_0_0b53ad.jpg?auto=format&fit=crop&w=800&q=80" alt="香濃冰淇淋">
+                    <img class="spot-photo" src="https://www.visit-hokkaido.jp/lsc/upfile/spot/0001/0357/10357_2_l.jpg?auto=format&fit=crop&w=800&q=80" alt="綠色大草地">
+                </div>
+            </div>
+			<div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🏠🥩🔥</div>
+                    <p class="spot-name">第七晚:民宿享用刺身，新鮮北海道農產品</p>
+                </div>
+                <div class="spot-desc">於當地超市Hokuren Shop Forest購買本地新鮮食材，全家在餐桌前享用螃蟹、刺身、壽司、新鮮蔬果！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://lh3.googleusercontent.com/grass-cs/ACvplmNgFEJU-tIy7PF8wFDJ6WFAyLXgzfuJlIL3naPsAhz5qN8zJF_xNrWWrDDRLxXPrfhrXQT7tK4Nje-K2V65BecIyJs0WWNLHy-H5sXmRnEJJPQ8kpT9zNvAghoQ_OZgG0Y-AlCn0yTgmvYl=s5120-w5120-h1822-rw?auto=format&fit=crop&w=800&q=80" alt="火鍋湯底">
+                    <img class="spot-photo" src="https://lh3.googleusercontent.com/grass-cs/ACvplmOGuRovdWDyhSktjcS2OlTJlXU74xlORYotOe8ix2GMoyzP4FnjuVa-P4EWtmhZi8zx2cMki9UTzhq1GV-GiqJnK5CQuldy1c3CB-xJndpgmxGhgyMtsyCXoHaO6tRmTa49CR_SDQ=s5120-w5120-h1822-rw?auto=format&fit=crop&w=800&q=80" alt="鮮嫩和牛片">
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 8 -->
+        <div class="day-card even">
+            <div class="day-header">
+                <div class="day-title">Day 8 🌸 富田農場薰衣草花田＋飛返東京</div>
+                <div class="day-date">27/8 (星期四)</div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🌸</div>
+                    <p class="spot-name">富良野 — 富田農場</p>
+                </div>
+                <div class="spot-desc">園區擁有大片薰衣草花田聞名全球，眾多花田又以薰衣草＋各種花卉組合的「彩色花田」最為熱門！必食密瓜雪糕！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://upload.wikimedia.org/wikipedia/commons/b/b6/Sign_of_Farm_Tomita.jpg?auto=format&fit=crop&w=800&q=80" alt="彩虹花田">
+                    <img class="spot-photo" src="https://www.travelliker.com.hk/img/upload/icon/icon-418.jpg?auto=format&fit=crop&w=800&q=80" alt="日本大自然風景">
+                </div>
+            </div>
+			 <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🍣</div>
+                    <p class="spot-name">旭川機場food court午餐</p>
+                </div>
+                <div class="spot-desc">旭川機場集結了數間知名的北海道在地餐廳，包括梅光軒拉麵、二條亭海鮮丼、Asahiya炭燒豚丼等各式美食！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://mimigo.tw/wp-content/uploads/20180905121053_69.jpg?auto=format&fit=crop&w=736&q=414" alt="握壽司">
+					<img class="spot-photo" src="https://tblg.k-img.com/restaurant/images/Rvw/205586/640x640_rect_f05e80981445ca65112d80718a00d940.jpg?token=abf9ac4&api=v2?auto=format&fit=crop&w=736&q=414" alt="握壽司">
+                    
+                </div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🏨🗼</div>
+                    <p class="spot-name">旭川機場 ➔ 東京羽田機場 ➔ 淺草VESSEL INN酒店</p>
+                </div>
+                <div class="spot-desc">搭乘飛機前往東京，入住位於淺草、視野極佳的高樓景觀酒店。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://image.kkday.com/v2/image/get/w_960%2Cc_fit%2Cq_55%2Ct_webp/s1.kkday.com/product_190281/20241118093851_vdY5J/png?auto=format&fit=crop&w=800&q=80" alt="晴空塔夜景">
+                    <img class="spot-photo" src="https://image.kkday.com/v2/image/get/w_960%2Cc_fit%2Cq_55%2Ct_webp/s1.kkday.com/dyhotel_2048/20260511090016_HQkDi/jpg?auto=format&fit=crop&w=800&q=80" alt="東京繁華街景">
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 9 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-title">Day 9 🛒 東京自由行與二姑慶生</div>
+                <div class="day-date">28/8 (星期五)</div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🛍️</div>
+                    <p class="spot-name">東京各自自由行</p>
+                </div>
+                <div class="spot-desc">二姑媽約會朋友；三姑媽購物；爺嫲閒遊淺草；阿齊鐵道遊，各自各精彩！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://www.bring-you.info/imgs/2019/05/senso-ji-1.jpg?auto=format&fit=crop&w=800&q=80" alt="商場購物">
+                    <img class="spot-photo" src="https://rimage.gnst.jp/livejapan.com/public/article/detail/a/00/05/a0005299/img/basic/a0005299_main.jpg?auto=format&fit=crop&w=800&q=80" alt="旅遊合影">
+                </div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🎂</div>
+                    <p class="spot-name">二姑生日快樂！慶祝晚宴</p>
+                </div>
+                <div class="spot-desc">全家圍坐，一邊享用精緻大餐，一邊切蛋糕為二姑送上驚喜與祝福！</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://static.japan-food.guide/uploads/ckeditor_asset/data/000/014/228/2d531c87e50f8d395c747dde8142ced6948c4c8b0e4a3591dc14f048736fd3b1/87121bf7-418f-4ef5-92d6-a42fe39798d3.jpg?auto=format&fit=crop&w=800&q=80" alt="精美蛋糕">
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 10 -->
+        <div class="day-card even">
+            <div class="day-header">
+                <div class="day-title">Day 10 ⛩️ 晴空塔最後衝刺，啟程回港！</div>
+                <div class="day-date">29/8 (星期六)</div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🏮</div>
+                    <p class="spot-name">晴空塔最後購物時間</p>
+                </div>
+                <div class="spot-desc">東京晴空塔高634公尺，是金氏世界紀錄認證的「世界第一高塔」。位於墨田區，集廣闊購物商場、水族館、星象儀與高空景觀於一身。</div>
+                <div class="photo-grid">
+                    <img class="spot-photo" src="https://s3-ap-northeast-1.amazonaws.com/thegate/2020/09/01/14/53/37/tokyo_sky_tree.jpg?auto=format&fit=crop&w=800&q=80" alt="雷門大燈籠">
+                    <img class="spot-photo" src="https://hk.wamazing.com/media/wp-content/uploads/sites/5/2019/06/Tokyo-Sky-Tree-8.jpg.webp?auto=format&fit=crop&w=800&q=80" alt="日式紅葉造景">
+                </div>
+            </div>
+            <div class="spot-item">
+                <div class="spot-title-row">
+                    <div class="spot-icon">🛫</div>
+                    <p class="spot-name">成田機場 ➔ 飛返香港</p>
+                </div>
+                <div class="spot-desc">帶著滿滿一箱戰利品、精美照片與滿滿的回憶安全回港！</div>
+                <div class="photo-grid">
+                    
+                    <img class="spot-photo" src="https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?auto=format&fit=crop&w=800&q=80" alt="鳥瞰雲霄風景">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>❤️ Wish you a wonderful and safe trip! ❤️<br>© 2026 Summer Family Holiday</p>
+    </footer>
+
+</body>
+</html>
